@@ -59,7 +59,7 @@ public class PonPo : MonoBehaviour
 
 
     //Gun Control
-    int ammo = 2;
+    public int ammo = 2;
 
     IEnumerator Shoot()
     {
@@ -185,6 +185,7 @@ public class PonPo : MonoBehaviour
 
     public void Die()
     {
+        ammo = 2;
         print("Die!");
         GameSystem.TheMatrix.SendGameMessage(GameSystem.GameMessage.Restart);
     }
