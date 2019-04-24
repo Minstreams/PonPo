@@ -110,11 +110,17 @@ public class PonPo : MonoBehaviour
 
                 //ammo time
                 shootBegin = true;
-            }
 
-            //Reload
-            audioReload.Play();
-            yield return new WaitForSeconds(Setting.reloadTime);
+                //Reload
+                audioReload.Play();
+                float ttimer = Setting.reloadTime;
+                while (ammo <= 0 && ttimer > 0)
+                {
+                    yield return 0;
+                    ttimer -= Time.deltaTime;
+                }
+                audioReload.Stop();
+            }
         }
     }
 

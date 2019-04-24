@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : Prop
 {
+    private bool picked = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (!picked && collision.CompareTag("Player"))
         {
             PonPo.ponPo.ammo++;
+            print("ammo:" + PonPo.ponPo.ammo);
+            picked = true;
         }
     }
 
@@ -19,5 +22,11 @@ public class Item : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(circle.bounds.center, circle.radius);
         Gizmos.color = Color.white;
+    }
+
+    protected override void Restart()
+    {
+        base.Restart();
+        picked = false;
     }
 }
