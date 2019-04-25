@@ -22,13 +22,9 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         rig = GetComponent<Rigidbody2D>();
-        PonPo.ShootAction += OnPonpoShoot;
+        PonPo.ponPo.onShoot.AddListener(OnPonpoShoot);
     }
 
-    private void OnDestroy()
-    {
-        PonPo.ShootAction -= OnPonpoShoot;
-    }
     ///Alive---------------------------------------------------------------------
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -64,8 +60,6 @@ public class Enemy : MonoBehaviour
     }
     private void OnPonpoShoot(Vector2 direction)
     {
-        direction.Normalize();
-        direction = -direction;
         Vector2 vec = transform.position - PonPo.ponPo.transform.position;
         if (vec.magnitude < Setting.cannonDistance && Mathf.Abs(Vector2.Angle(vec, direction)) < Setting.cannonAngle)
         {

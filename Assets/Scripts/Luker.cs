@@ -18,7 +18,7 @@ public class Luker : Prop
     {
         base.Awake();
         dz = GetComponentInChildren<DeadZone>().gameObject;
-        if (destroyable) PonPo.ShootAction += OnPonpoShoot;
+        if (destroyable) PonPo.ponPo.onShoot.AddListener(OnPonpoShoot);
     }
 
     private void Start()
@@ -38,8 +38,6 @@ public class Luker : Prop
     }
     private void OnPonpoShoot(Vector2 direction)
     {
-        direction.Normalize();
-        direction = -direction;
         Vector2 vec = transform.position + (Vector3)(transform.localToWorldMatrix * offset) - PonPo.ponPo.transform.position;
         if (vec.magnitude < GameSystem.TheMatrix.PonPoSetting.cannonDistance && Mathf.Abs(Vector2.Angle(vec, direction)) < GameSystem.TheMatrix.PonPoSetting.cannonAngle)
         {
@@ -50,14 +48,14 @@ public class Luker : Prop
     private void Broke()
     {
         broken = true;
-        PonPo.ShootAction -= OnPonpoShoot;
+        PonPo.ponPo.onShoot.RemoveListener(OnPonpoShoot);
         ker.SetActive(false);
     }
 
     protected override void Restart()
     {
         base.Restart();
-        if (destroyable) PonPo.ShootAction += OnPonpoShoot;
+        if (destroyable) PonPo.ponPo.onShoot.AddListener(OnPonpoShoot);
         broken = false;
         timer = startTimer;
         ker.SetActive(true);

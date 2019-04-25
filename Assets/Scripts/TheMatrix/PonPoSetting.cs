@@ -33,7 +33,7 @@ namespace GameSystem
 
             [Header("摄像机参数")]
             public float movingRate = 0.9f;
-            public float reactDistance = 0.1f;
+            public float reactDistance = 0.6f;
 
             [Header("敌人通用参数")]
             public float enemyReactPower = 1.5f; //slightly jump up when hurt
