@@ -9,8 +9,8 @@ public class Item : Prop
     {
         if (!picked && collision.CompareTag("Player"))
         {
-            PonPo.ponPo.ammo++;
-            print("ammo:" + PonPo.ponPo.ammo);
+            PonPo.ponPo.Ammo++;
+            print("ammo:" + PonPo.ponPo.Ammo);
             picked = true;
         }
     }
