@@ -18,19 +18,30 @@ public class Enemy : MonoBehaviour
     }
 
     [HideInInspector] public Rigidbody2D rig;
-    private bool isAlive = true;
 
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         PonPo.ponPo.onShoot.AddListener(OnPonpoShoot);
+        patrolOriginX = transform.position.x;
+        if (patrolMode) patrolRoutine = StartCoroutine(Patrol());
     }
+
+
+
+    ///Basic=================================================================
 
     //events
     public UnityEvent onDie;
+    public UnityEvent onSink;
+    public UnityEvent onTurnIntoGround;
 
 
-    ///Alive---------------------------------------------------------------------
+    //paras
+    private bool isAlive = true;
+
+
+    //functions
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isAlive && collision.collider.CompareTag("Player"))
@@ -53,15 +64,27 @@ public class Enemy : MonoBehaviour
             }
             PonPo.ponPo.Damage(impulse * force);
         }
+        else if (isAlive && collision.collider.CompareTag("Enemy"))
+        {
+            forcingFlip = true;
+        }
     }
 
     //Acting Pattern
 
     //React
-    public void React(Vector2 direction)
+    public void React(Vector2 force)
     {
-        rig.AddForce(direction + Vector2.up * Setting.enemyReactPower, ForceMode2D.Impulse);
+        rig.AddForce(force + Vector2.up * Setting.enemyReactPower, ForceMode2D.Impulse);
     }
+    private void Die()
+    {
+        onDie?.Invoke();
+        isAlive = false;
+        if (chaseRoutine != null) StopCoroutine(chaseRoutine);
+        if (patrolRoutine != null) StopCoroutine(patrolRoutine);
+    }
+
     private void OnPonpoShoot(Vector2 direction)
     {
         if (PonPo.ShootHit(transform.position))
@@ -79,25 +102,189 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-
-    public void TurnIntoGround(Vector2 pos)
+    public void TurnIntoGround(float surface)
     {
-        if (isAlive) Die();
-        rig.isKinematic = true;
+        tag = "Ground";
         gameObject.layer = LayerMask.NameToLayer("Ground");
-        //TODO:pos,animation
+
+        if (isAlive) Die();
+        onSink?.Invoke();
+
+        StartCoroutine(_TurnIntoGround(surface));
+    }
+    private IEnumerator _TurnIntoGround(float surface)
+    {
+        rig.drag = Setting.enemyFloatDrag;
+
+        //flying first
+        print("flying first");
+        while (transform.position.y >= surface)
+        {
+            yield return 0;
+        }
+
+        //sinking second
+        print("sinking second");
+        while (transform.position.y < surface)
+        {
+            yield return 0;
+            rig.AddForce(Vector2.up * Setting.enemyFloatPower, ForceMode2D.Force);
+        }
+
+        //flying again
+        print("flying again");
+        while (transform.position.y >= surface)
+        {
+            yield return 0;
+        }
+
+        //sinking again
+        print("sinking again");
+        while (transform.position.y < surface)
+        {
+            yield return 0;
+            rig.AddForce(Vector2.up * Setting.enemyFloatPower, ForceMode2D.Force);
+        }
+
+        //flying again
+        print("flying again");
+        while (transform.position.y >= surface)
+        {
+            yield return 0;
+        }
+
+        //sinking again
+        print("sinking again");
+        while (transform.position.y < surface)
+        {
+            yield return 0;
+            rig.AddForce(Vector2.up * Setting.enemyFloatPower, ForceMode2D.Force);
+        }
+
+        onTurnIntoGround?.Invoke();
+
+        Vector3 vec3 = transform.position;
+        vec3.y = surface;
+        transform.position = vec3;
+
+        rig.velocity = Vector2.zero;
+        rig.angularVelocity = 0;
+        transform.rotation = Quaternion.identity;
+        rig.isKinematic = true;
     }
 
-    private void Die()
+
+
+
+
+
+    ///Chasing=================================================================
+
+    //events
+    public UnityEvent onStartChasing;
+    public UnityEvent onEndChasing;
+
+
+    //paras
+    public bool chaseMode = false;
+    public float chaseSpeed = 3f;
+    private bool isChasing = false;
+    private Coroutine chaseRoutine;
+
+
+    //functions
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        onDie?.Invoke();
-        isAlive = false;
+        if (chaseMode && collision.CompareTag("Player"))
+        {
+            chaseRoutine = StartCoroutine(Chase());
+            isChasing = true;
+        }
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (chaseMode && collision.CompareTag("Player"))
+        {
+            StopCoroutine(chaseRoutine);
+            isChasing = false;
+        }
+    }
+    private IEnumerator Chase()
+    {
+        while (true)
+        {
+            yield return 0;
+            Vector2 v = rig.velocity;
+            v.x = Mathf.Sign(PonPo.ponPo.transform.position.x - transform.position.x) * chaseSpeed;
+            rig.velocity = v;
+        }
+    }
+
+
+
+
+
+
+    ///Patrol=================================================================
+    [HideInInspector]
+    public bool patrolMode = false;
+    public float patrolSpeed = 2f;
+    [HideInInspector]
+    public Vector2 patrolRange = new Vector2(-5f, 5f);
+    private float patrolOriginX = 0;
+    private Coroutine patrolRoutine;
+    private bool forcingFlip = false;
+
+    private IEnumerator Patrol()
+    {
+        while (true)
+        {
+            //To Left
+            while (transform.position.x > patrolOriginX + patrolRange.x)
+            {
+                yield return 0;
+                if (isChasing) continue;
+                if (forcingFlip)
+                {
+                    forcingFlip = false;
+                    break;
+                }
+                Vector2 v = rig.velocity;
+                v.x = -patrolSpeed;
+                rig.velocity = v;
+            }
+
+            //To Right
+            while (transform.position.x < patrolOriginX + patrolRange.y)
+            {
+                yield return 0;
+                if (isChasing) continue;
+                if (forcingFlip)
+                {
+                    forcingFlip = false;
+                    break;
+                }
+                Vector2 v = rig.velocity;
+                v.x = patrolSpeed;
+                rig.velocity = v;
+            }
+        }
+    }
+
+
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(transform.position, 0.1f);
+
+        if (chaseMode)
+        {
+            Gizmos.color = new Color(1f, 0.5f, 0f);
+            CircleCollider2D cc = GetComponent<CircleCollider2D>();
+            Gizmos.DrawWireSphere(transform.position, cc.radius);
+        }
+
         Gizmos.color = Color.white;
     }
 }

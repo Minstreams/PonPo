@@ -40,6 +40,8 @@ namespace GameSystem
             public float enemyReactPower = 1.5f; //slightly jump up when hurt
             public float enemyHitPowerAlive = 3f;
             public float enemyHitPowerDead = 8f;
+            public float enemyFloatPower = 8f;
+            public float enemyFloatDrag = 2f;
 
         }
     }

@@ -9,6 +9,9 @@ public class EnemySpawnPoint : Prop
     public GameObject enemyPrifab;
     public bool infinite = false;
 
+    public bool patrolMode = false;
+    public Vector2 patrolRange = new Vector2(-5f, 5f);
+
     private List<GameObject> enemies = new List<GameObject>();
     private float timer = 0;
     private int count = 0;
@@ -21,7 +24,10 @@ public class EnemySpawnPoint : Prop
         {
             GameObject g = GameObject.Instantiate(enemyPrifab, transform);
             enemies.Add(g);
-            if (infinite) g.GetComponent<Enemy>().onDie.AddListener(OnEnemyDie);
+            Enemy e = g.GetComponent<Enemy>();
+            e.patrolMode = patrolMode;
+            e.patrolRange = patrolRange;
+            if (infinite) e.onDie.AddListener(OnEnemyDie);
             count++;
             timer = coolDownTime;
         }
@@ -41,10 +47,28 @@ public class EnemySpawnPoint : Prop
         count = 0;
         timer = 0;
     }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, 0.6f);
+
+        if (enemyPrifab)
+        {
+            Enemy e = enemyPrifab.GetComponent<Enemy>();
+            if (e.chaseMode)
+            {
+                Gizmos.color = new Color(1f, 0.5f, 0f);
+                CircleCollider2D cc = e.GetComponent<CircleCollider2D>();
+                Gizmos.DrawWireSphere(transform.position, cc.radius);
+            }
+            if (patrolMode)
+            {
+                Gizmos.color = Color.black;
+                Gizmos.DrawRay(transform.position + new Vector3(patrolRange.x, -15f, 0f), Vector3.up * 30f);
+                Gizmos.DrawRay(transform.position + new Vector3(patrolRange.y, -15f, 0f), Vector3.up * 30f);
+            }
+        }
         Gizmos.color = Color.white;
     }
 }

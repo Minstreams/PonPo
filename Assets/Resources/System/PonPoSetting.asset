@@ -33,3 +33,5 @@ MonoBehaviour:
   enemyReactPower: 1.5
   enemyHitPowerAlive: 3
   enemyHitPowerDead: 8
+  enemyFloatPower: 18
+  enemyFloatDrag: 2

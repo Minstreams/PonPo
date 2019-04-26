@@ -28,8 +28,7 @@ public class DeadStone : Prop
 
     private void OnPonpoShoot(Vector2 direction)
     {
-        Vector2 vec = transform.position - PonPo.ponPo.transform.position;
-        if (vec.magnitude < GameSystem.TheMatrix.PonPoSetting.cannonDistance && Mathf.Abs(Vector2.Angle(vec, direction)) < GameSystem.TheMatrix.PonPoSetting.cannonAngle)
+        if (PonPo.ShootHit(transform.position))
         {
             print("stone hit!");
             float force = Mathf.Abs(direction.x) > Mathf.Abs(direction.y) ? GameSystem.TheMatrix.PonPoSetting.gunForceHorizontal : GameSystem.TheMatrix.PonPoSetting.gunForceVertical;

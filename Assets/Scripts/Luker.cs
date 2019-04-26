@@ -34,8 +34,7 @@ public class Luker : Prop
     }
     private void OnPonpoShoot(Vector2 direction)
     {
-        Vector2 vec = transform.position + (Vector3)(transform.localToWorldMatrix * offset) - PonPo.ponPo.transform.position;
-        if (vec.magnitude < GameSystem.TheMatrix.PonPoSetting.cannonDistance && Mathf.Abs(Vector2.Angle(vec, direction)) < GameSystem.TheMatrix.PonPoSetting.cannonAngle)
+        if (PonPo.ShootHit(transform.position + (Vector3)(transform.localToWorldMatrix * offset)))
         {
             Broke();
         }
