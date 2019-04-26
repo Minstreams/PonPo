@@ -32,62 +32,72 @@ public class PonPo : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
     }
 
-    private bool isGround = false;
-    private int groundAttached = 0; //the number of attached grounds
-    private float Force { get => isGround ? Setting.groundForce : Setting.airForce; }
 
 
     //Input Convertion
-    private bool Left { get => Input.GetKey(KeyCode.A); }
-    private bool Right { get => Input.GetKey(KeyCode.D); }
-    private bool Jump { get => Input.GetKeyDown(KeyCode.Space); }
-    private bool ShootUp { get => Input.GetKeyDown(KeyCode.UpArrow); }
-    private bool ShootDown { get => Input.GetKeyDown(KeyCode.DownArrow); }
-    private bool ShootLeft { get => Input.GetKeyDown(KeyCode.LeftArrow); }
-    private bool ShootRight { get => Input.GetKeyDown(KeyCode.RightArrow); }
-    private bool shootBegin = false;
-    private bool ShootEnd { get => !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)); }
+    private bool ILeft { get => Input.GetKey(KeyCode.A); }
+    private bool IRight { get => Input.GetKey(KeyCode.D); }
+    private bool IJump { get => Input.GetKeyDown(KeyCode.Space); }
+    private bool IShootUp { get => Input.GetKeyDown(KeyCode.UpArrow); }
+    private bool IShootDown { get => Input.GetKeyDown(KeyCode.DownArrow); }
+    private bool IShootLeft { get => Input.GetKeyDown(KeyCode.LeftArrow); }
+    private bool IShootRight { get => Input.GetKeyDown(KeyCode.RightArrow); }
+    private bool IShootBegin = false;
+    private bool IShootEnd { get => !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)); }
+
+
+
+
+
 
 
     //Event list
-    [System.Serializable]
-    public class ShootEvent : UnityEvent<Vector2> { }
-    public ShootEvent onShoot;
-
     public static event UnityAction Restart;
 
+    [System.Serializable]
+    public class Vec2Event : UnityEvent<Vector2> { }
+    public Vec2Event onShoot;
+    public UnityEvent onDie;
 
-    //Gun Control
+
+
+    //Gun Control=============================================================
     public int ammo = 2;
+    private static Vector2 direction;
+    public static bool ShootHit(Vector3 position)
+    {
+        Vector2 vec = position - ponPo.transform.position;
+        return vec.magnitude < GameSystem.TheMatrix.PonPoSetting.cannonDistance && Mathf.Abs(Vector2.Angle(vec, direction)) < GameSystem.TheMatrix.PonPoSetting.cannonAngle;
+    }
+
 
     IEnumerator Shoot()
     {
         while (true)
         {
             ammo = 2;
-            Vector2 direction;
             float force = 0;
 
             while (ammo > 0)
             {
                 yield return 0;
-                if (ShootUp)
+                if (IShootUp)
                 {
                     direction = Vector2.up;
                     force = Setting.gunForceVertical;
                 }
-                else if (ShootDown)
+                else if (IShootDown)
                 {
                     ClearYAxisVolecity();
                     direction = Vector2.down;
                     force = Setting.gunForceVertical;
                 }
-                else if (ShootLeft)
+                else if (IShootLeft)
                 {
                     direction = Vector2.left;
                     force = Setting.gunForceHorizontal;
                 }
-                else if (ShootRight)
+                else if (IShootRight)
                 {
                     direction = Vector2.right;
                     force = Setting.gunForceHorizontal;
@@ -96,13 +106,11 @@ public class PonPo : MonoBehaviour
 
                 //Shoot
                 React(-direction * force);
-                onShoot.Invoke(direction);
+                onShoot?.Invoke(direction);
                 ammo--;
 
-                shootTorchMaterial.SetVector("_direction", -direction);
-
                 //ammo time
-                shootBegin = true;
+                IShootBegin = true;
 
                 //Reload
                 audioReload.Play();
@@ -116,9 +124,6 @@ public class PonPo : MonoBehaviour
             }
         }
     }
-
-
-
     IEnumerator AmmoTime()
     {
         while (true)
@@ -126,16 +131,16 @@ public class PonPo : MonoBehaviour
             while (true)
             {
                 yield return 0;
-                if (shootBegin)
+                if (IShootBegin)
                 {
-                    shootBegin = false;
+                    IShootBegin = false;
                     break;
                 }
             }
 
             yield return new WaitForSeconds(Setting.ammoTimeDelay);
 
-            if (ShootEnd) continue;
+            if (IShootEnd) continue;
 
             Time.timeScale = Setting.ammoTimeFactor * Setting.ammoTimeFactor;
             float timer = 1f;
@@ -147,23 +152,29 @@ public class PonPo : MonoBehaviour
                 Time.timeScale = t * t;
 
 
-                if (shootBegin)
+                if (IShootBegin)
                 {
-                    shootBegin = false;
+                    IShootBegin = false;
                     timer = 1f;
                 }
-                if (ShootEnd) break;
+                if (IShootEnd) break;
             }
             yield return 0;
             Time.timeScale = 1.0f;
         }
     }
-
-
-    //React
-    public void React(Vector2 direction)
+    private void Start()
     {
-        rig.AddForce(direction + Vector2.up * Setting.reactPower, ForceMode2D.Impulse);
+        StartCoroutine(Shoot());
+        StartCoroutine(AmmoTime());
+    }
+
+
+
+    //React===================================================================
+    public void React(Vector2 force)
+    {
+        rig.AddForce(force + Vector2.up * Setting.reactPower, ForceMode2D.Impulse);
     }
 
     public void ClearYAxisVolecity()
@@ -173,48 +184,68 @@ public class PonPo : MonoBehaviour
         rig.velocity = v;
     }
 
-    public void Damage(Vector2 direction)
+    public void Damage(Vector2 force)
     {
         ammo = 0;
-        React(direction);
+        React(force);
         print("Damage!");
     }
 
     public void Die()
     {
-        ammo = 2;
         print("Die!");
+        onDie?.Invoke();
+        StartCoroutine(InvokeRestart());
+    }
+
+    private IEnumerator InvokeRestart()
+    {
+        yield return new WaitForSeconds(Setting.ammoTimeDelay);
+        Time.timeScale = Setting.ammoTimeFactor * Setting.ammoTimeFactor;
+        float timer = 1f;
+        while (timer > 0)
+        {
+            yield return 0;
+            timer -= Time.deltaTime / Setting.dieDelayTime / Time.timeScale;
+            float t = Mathf.Lerp(1f, Setting.ammoTimeFactor, timer);
+            Time.timeScale = t * t;
+
+        }
+        yield return 0;
+        Time.timeScale = 1.0f;
+        ammo = 2;
         Restart?.Invoke();
     }
 
-    //Life
-    private void Start()
-    {
-        StartCoroutine(Shoot());
-        StartCoroutine(AmmoTime());
-    }
+
+
+
+
+
+    //Moving===================================================================
+    private bool isGround = false;
+    private int groundAttached = 0; //the number of attached grounds
+    private float Force { get => isGround ? Setting.groundForce : Setting.airForce; }
 
     private void FixedUpdate()
     {
         float a = 0f;
-        if (Left) a -= 1f;
-        if (Right) a += 1f;
+        if (ILeft) a -= 1f;
+        if (IRight) a += 1f;
         rig.AddForce(Vector2.right * a * Force - (isGround ? rig.velocity * Setting.groundDrag * Setting.groundDrag : Vector2.zero), ForceMode2D.Force);
 
         Debug.DrawLine(transform.position, transform.position + Vector3.right * a * Force * 0.1f, Color.blue);
         Debug.DrawLine(transform.position, transform.position - (isGround ? (Vector3)rig.velocity * Setting.groundDrag * Setting.groundDrag : Vector3.zero) * 0.1f, Color.gray);
     }
-
     private void Update()
     {
-        if (Jump && isGround)
+        if (IJump && isGround)
         {
             ClearYAxisVolecity();
             audioJump.Play();
             React(Vector2.up * Setting.jumpPower);
         }
     }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Ground"))
@@ -226,7 +257,6 @@ public class PonPo : MonoBehaviour
             groundAttached++;
         }
     }
-
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Ground"))

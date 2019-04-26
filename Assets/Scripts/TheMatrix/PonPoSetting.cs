@@ -30,6 +30,7 @@ namespace GameSystem
             public float reactPower = 1.5f; //slightly jump up when hurt/shoot
             public float damageForceHorizontal = 6;
             public float damageForceVertical = 6;
+            public float dieDelayTime = 0.5f;
 
             [Header("摄像机参数")]
             public float movingRate = 0.9f;

@@ -21,13 +21,13 @@ public class EnemySpawnPoint : Prop
         {
             GameObject g = GameObject.Instantiate(enemyPrifab, transform);
             enemies.Add(g);
-            if (infinite) g.GetComponent<Enemy>().DieAction += OnDie;
+            if (infinite) g.GetComponent<Enemy>().onDie.AddListener(OnEnemyDie);
             count++;
             timer = coolDownTime;
         }
     }
 
-    private void OnDie()
+    private void OnEnemyDie()
     {
         count--;
     }

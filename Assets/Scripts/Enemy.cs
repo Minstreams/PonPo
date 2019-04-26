@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
@@ -19,11 +20,15 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public Rigidbody2D rig;
     private bool isAlive = true;
 
-    private void Awake()
+    private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         PonPo.ponPo.onShoot.AddListener(OnPonpoShoot);
     }
+
+    //events
+    public UnityEvent onDie;
+
 
     ///Alive---------------------------------------------------------------------
     private void OnCollisionEnter2D(Collision2D collision)
@@ -53,15 +58,13 @@ public class Enemy : MonoBehaviour
     //Acting Pattern
 
     //React
-    public UnityEngine.Events.UnityAction DieAction;
     public void React(Vector2 direction)
     {
         rig.AddForce(direction + Vector2.up * Setting.enemyReactPower, ForceMode2D.Impulse);
     }
     private void OnPonpoShoot(Vector2 direction)
     {
-        Vector2 vec = transform.position - PonPo.ponPo.transform.position;
-        if (vec.magnitude < Setting.cannonDistance && Mathf.Abs(Vector2.Angle(vec, direction)) < Setting.cannonAngle)
+        if (PonPo.ShootHit(transform.position))
         {
             if (isAlive)
             {
@@ -74,7 +77,6 @@ public class Enemy : MonoBehaviour
             {
                 React(direction * Setting.enemyHitPowerDead);
             }
-            print("Hit!");
         }
     }
 
@@ -88,7 +90,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        DieAction?.Invoke();
+        onDie?.Invoke();
         isAlive = false;
     }
 
