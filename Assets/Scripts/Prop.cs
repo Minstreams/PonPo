@@ -6,11 +6,11 @@ public abstract class Prop : MonoBehaviour
 {
     protected virtual void Awake()
     {
-        GameSystem.TheMatrix.Restart += Restart;
+        PonPo.Restart += Restart;
     }
     protected virtual void OnDestroy()
     {
-        GameSystem.TheMatrix.Restart -= Restart;
+        PonPo.Restart -= Restart;
     }
 
     protected virtual void Restart()

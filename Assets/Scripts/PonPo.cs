@@ -54,6 +54,8 @@ public class PonPo : MonoBehaviour
     public class ShootEvent : UnityEvent<Vector2> { }
     public ShootEvent onShoot;
 
+    public static event UnityAction Restart;
+
 
     //Gun Control
     public int ammo = 2;
@@ -182,7 +184,7 @@ public class PonPo : MonoBehaviour
     {
         ammo = 2;
         print("Die!");
-        GameSystem.TheMatrix.SendGameMessage(GameSystem.GameMessage.Restart);
+        Restart?.Invoke();
     }
 
     //Life

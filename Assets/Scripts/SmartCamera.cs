@@ -40,6 +40,10 @@ public class SmartCamera : MonoBehaviour
     {
         cameraPoints.Clear();
         cam = GetComponent<Camera>();
+    }
+
+    private void Start()
+    {
         PonPo.ponPo.onShoot.AddListener(React);
     }
 

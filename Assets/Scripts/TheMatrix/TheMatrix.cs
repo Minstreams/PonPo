@@ -25,7 +25,6 @@ namespace GameSystem
         {
             SceneManager.LoadScene(_startMenu);
             ResetGameMessage();
-            Restart?.Invoke();
             while (true)
             {
                 yield return 0;
@@ -60,18 +59,6 @@ namespace GameSystem
                 {
                     Application.Quit();
                     yield break;
-                }
-            }
-        }
-
-        private IEnumerator _Restart()
-        {
-            while (true)
-            {
-                yield return 0;
-                if (GetGameMessage(GameMessage.Restart))
-                {
-                    Restart?.Invoke();
                 }
             }
         }
@@ -253,7 +240,6 @@ namespace GameSystem
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
-            StartCoroutine(_Restart());
 
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy Dead"), LayerMask.NameToLayer("Enemy Dead"));
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy Dead"), LayerMask.NameToLayer("Enemy Alive"));
@@ -289,9 +275,6 @@ namespace GameSystem
                 return _PonPoSetting;
             }
         }
-
-        //Restart Action
-        public static event UnityAction Restart;
     }
 
     /// <summary>
@@ -302,7 +285,6 @@ namespace GameSystem
         Start,
         Skip,
         Return,
-        Restart,
         Exit
     }
 }
