@@ -54,7 +54,7 @@ namespace GameSystem
                     StartCoroutine(_StartMenu());
                     yield break;
                 }
-                
+
                 if (GetGameMessage(GameMessage.Exit))
                 {
                     Application.Quit();
@@ -288,3 +288,25 @@ namespace GameSystem
         Exit
     }
 }
+
+#if UNITY_EDITOR
+
+public class MyTool
+{
+    [UnityEditor.MenuItem("Tools/Align Z %#Z")]
+    public static void AlignZ()
+    {
+        GameObject[] gg = SceneManager.GetActiveScene().GetRootGameObjects();
+        foreach (GameObject g in gg)
+        {
+            if (!(g.GetComponent<Camera>() || g.GetComponent<SmartCameraRecorder>()))
+            {
+                Vector3 v = g.transform.position;
+                v.z = 0;
+                g.transform.position = v;
+            }
+        }
+    }
+}
+
+#endif

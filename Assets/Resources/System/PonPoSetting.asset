@@ -16,6 +16,7 @@ MonoBehaviour:
   airForce: 2
   groundDrag: 2
   jumpPower: 6
+  jumpClimbUpRate: 0.3
   gunForceHorizontal: 6
   gunForceVertical: 6
   reloadTime: 2
@@ -27,8 +28,11 @@ MonoBehaviour:
   reactPower: 1.5
   damageForceHorizontal: 6
   damageForceVertical: 6
+  dieDelayTime: 1
   movingRate: 0.9
   reactDistance: 0.6
   enemyReactPower: 1.5
   enemyHitPowerAlive: 3
   enemyHitPowerDead: 8
+  enemyFloatPower: 18
+  enemyFloatDrag: 2

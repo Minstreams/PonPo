@@ -15,6 +15,7 @@ namespace GameSystem
             public float airForce = 2;      //constant force when moving on air
             public float groundDrag = 2; 
             public float jumpPower = 6;
+            public float jumpClimbUpRate = 0.2f;
 
             [Header("枪参数")]
             public float gunForceHorizontal = 6;
@@ -30,6 +31,7 @@ namespace GameSystem
             public float reactPower = 1.5f; //slightly jump up when hurt/shoot
             public float damageForceHorizontal = 6;
             public float damageForceVertical = 6;
+            public float dieDelayTime = 0.5f;
 
             [Header("摄像机参数")]
             public float movingRate = 0.9f;
@@ -39,6 +41,8 @@ namespace GameSystem
             public float enemyReactPower = 1.5f; //slightly jump up when hurt
             public float enemyHitPowerAlive = 3f;
             public float enemyHitPowerDead = 8f;
+            public float enemyFloatPower = 8f;
+            public float enemyFloatDrag = 2f;
 
         }
     }

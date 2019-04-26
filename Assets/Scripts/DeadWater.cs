@@ -12,12 +12,7 @@ public class DeadWater : MonoBehaviour
         }
         else if (collision.CompareTag("Enemy"))
         {
-            Enemy e = collision.GetComponent<Enemy>();
-            e.rig.velocity = Vector2.zero;
-            e.rig.angularVelocity = 0;
-            e.transform.rotation = Quaternion.identity;
-            e.tag = "Ground";
-            e.TurnIntoGround(new Vector2(e.transform.position.x, GetComponent<BoxCollider2D>().bounds.max.y));
+            collision.GetComponent<Enemy>().TurnIntoGround(GetComponent<BoxCollider2D>().bounds.max.y);
         }
     }
 
