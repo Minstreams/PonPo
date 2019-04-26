@@ -24,23 +24,18 @@ public class DeadStone : Prop
     protected override void Awake()
     {
         base.Awake();
-        PonPo.ShootAction += OnPonpoShoot;
-    }
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-        PonPo.ShootAction -= OnPonpoShoot;
+        PonPo.ponPo.onShoot.AddListener(OnPonpoShoot);
     }
 
     private void OnPonpoShoot(Vector2 direction)
     {
-        direction = -direction;
         Vector2 vec = transform.position - PonPo.ponPo.transform.position;
         if (vec.magnitude < GameSystem.TheMatrix.PonPoSetting.cannonDistance && Mathf.Abs(Vector2.Angle(vec, direction)) < GameSystem.TheMatrix.PonPoSetting.cannonAngle)
         {
             print("stone hit!");
+            float force = Mathf.Abs(direction.x) > Mathf.Abs(direction.y) ? GameSystem.TheMatrix.PonPoSetting.gunForceHorizontal : GameSystem.TheMatrix.PonPoSetting.gunForceVertical;
             GetComponent<Rigidbody2D>().isKinematic = false;
-            GetComponent<Rigidbody2D>().AddForce(direction, ForceMode2D.Impulse);
+            GetComponent<Rigidbody2D>().AddForce(direction * force, ForceMode2D.Impulse);
         }
     }
 

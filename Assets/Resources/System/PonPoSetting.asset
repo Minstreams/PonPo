@@ -28,4 +28,7 @@ MonoBehaviour:
   damageForceHorizontal: 6
   damageForceVertical: 6
   movingRate: 0.9
-  reactDistance: 0.1
+  reactDistance: 0.6
+  enemyReactPower: 1.5
+  enemyHitPowerAlive: 3
+  enemyHitPowerDead: 8

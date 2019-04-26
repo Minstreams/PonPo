@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Player
@@ -15,30 +16,20 @@ public class PonPo : MonoBehaviour
     {
         get
         {
-            if(!_setting)_setting = GameSystem.TheMatrix.PonPoSetting;
+            if (!_setting) _setting = GameSystem.TheMatrix.PonPoSetting;
             return _setting;
         }
     }
     [HideInInspector] public Rigidbody2D rig;
-    public AudioSource audioShoot;
     public AudioSource audioReload;
     public AudioSource audioJump;
 
-    [System.Serializable]
-    public class ParticlePair
-    {
-        public ParticleSystem particle;
-        public int count;
-    }
-
-    public List<ParticlePair> shootParticles = new List<ParticlePair>();
     public Material shootTorchMaterial;
 
     private void Awake()
     {
         ponPo = this;
         rig = GetComponent<Rigidbody2D>();
-        ShootAction += React;
     }
 
     private bool isGround = false;
@@ -56,6 +47,12 @@ public class PonPo : MonoBehaviour
     private bool ShootRight { get => Input.GetKeyDown(KeyCode.RightArrow); }
     private bool shootBegin = false;
     private bool ShootEnd { get => !(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)); }
+
+
+    //Event list
+    [System.Serializable]
+    public class ShootEvent : UnityEvent<Vector2> { }
+    public ShootEvent onShoot;
 
 
     //Gun Control
@@ -96,17 +93,11 @@ public class PonPo : MonoBehaviour
                 else continue;
 
                 //Shoot
-                print("Shoot" + direction);
-                audioShoot.Play();
-                ShootAction?.Invoke(-direction * force);
+                React(-direction * force);
+                onShoot.Invoke(direction);
                 ammo--;
 
                 shootTorchMaterial.SetVector("_direction", -direction);
-                foreach (ParticlePair pp in shootParticles)
-                {
-                    pp.particle.transform.rotation = Quaternion.LookRotation(direction, Vector3.forward);
-                    pp.particle.Emit(pp.count);
-                }
 
                 //ammo time
                 shootBegin = true;
@@ -168,8 +159,6 @@ public class PonPo : MonoBehaviour
 
 
     //React
-    public static event UnityEngine.Events.UnityAction<Vector2> ShootAction;
-
     public void React(Vector2 direction)
     {
         rig.AddForce(direction + Vector2.up * Setting.reactPower, ForceMode2D.Impulse);
@@ -248,12 +237,6 @@ public class PonPo : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        ShootAction -= React;
-
-    }
-
 
     private void OnDrawGizmos()
     {
@@ -268,7 +251,7 @@ public class PonPo : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(-Mathf.Cos(angle), Mathf.Sin(angle), 0) * Setting.cannonDistance);
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(-Mathf.Cos(angle), -Mathf.Sin(angle), 0) * Setting.cannonDistance);
         Gizmos.DrawLine(transform.position + Vector3.left * Setting.cannonDistance, transform.position + new Vector3(-Mathf.Cos(angle), Mathf.Sin(angle), 0) * Setting.cannonDistance);
-        Gizmos.DrawLine(transform.position + Vector3.left * Setting.cannonDistance, transform.position + new Vector3(-Mathf.Cos(angle),-Mathf.Sin(angle), 0) * Setting.cannonDistance);
+        Gizmos.DrawLine(transform.position + Vector3.left * Setting.cannonDistance, transform.position + new Vector3(-Mathf.Cos(angle), -Mathf.Sin(angle), 0) * Setting.cannonDistance);
 
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0) * Setting.cannonDistance);
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(-Mathf.Sin(angle), Mathf.Cos(angle), 0) * Setting.cannonDistance);
