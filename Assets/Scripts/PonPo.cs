@@ -226,6 +226,7 @@ public class PonPo : MonoBehaviour
     private bool isGround = false;
     private int groundAttached = 0; //the number of attached grounds
     private float Force { get => isGround ? Setting.groundForce : Setting.airForce; }
+    private Vector2 jumpVec = Vector2.down;
 
     private void FixedUpdate()
     {
@@ -243,7 +244,7 @@ public class PonPo : MonoBehaviour
         {
             ClearYAxisVolecity();
             audioJump.Play();
-            React(Vector2.up * Setting.jumpPower);
+            React(jumpVec.normalized * Setting.jumpPower);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
@@ -255,8 +256,13 @@ public class PonPo : MonoBehaviour
                 isGround = true;
             }
             groundAttached++;
+            foreach (ContactPoint2D v in collision.contacts)
+            {
+                if (v.normal.y > jumpVec.y) jumpVec = v.normal + Vector2.up * Setting.jumpClimbUpRate;
+            }
         }
     }
+    ContactPoint2D[] contacts = new ContactPoint2D[32];
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Ground"))
@@ -265,6 +271,13 @@ public class PonPo : MonoBehaviour
             if (groundAttached <= 0)
             {
                 isGround = false;
+            }
+
+            int ccount = rig.GetContacts(contacts);
+            jumpVec = Vector2.down;
+            for (int i = 0; i < ccount; i++)
+            {
+                if (contacts[i].normal.y > jumpVec.y) jumpVec = contacts[i].normal + Vector2.up * Setting.jumpClimbUpRate;
             }
         }
     }

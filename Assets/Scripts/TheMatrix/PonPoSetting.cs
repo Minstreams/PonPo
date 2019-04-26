@@ -15,6 +15,7 @@ namespace GameSystem
             public float airForce = 2;      //constant force when moving on air
             public float groundDrag = 2; 
             public float jumpPower = 6;
+            public float jumpClimbUpRate = 0.2f;
 
             [Header("枪参数")]
             public float gunForceHorizontal = 6;

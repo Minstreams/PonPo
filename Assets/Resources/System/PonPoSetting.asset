@@ -16,6 +16,7 @@ MonoBehaviour:
   airForce: 2
   groundDrag: 2
   jumpPower: 6
+  jumpClimbUpRate: 0.3
   gunForceHorizontal: 6
   gunForceVertical: 6
   reloadTime: 2
