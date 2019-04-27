@@ -94,7 +94,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  chaseMode: 0
+  chaseMode: 1
   chaseSpeed: 3
   patrolMode: 0
   patrolSpeed: 2

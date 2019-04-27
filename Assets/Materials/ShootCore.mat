@@ -60,10 +60,10 @@ Material:
     - _ColorMode: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DistortionBlend: 0.5
+    - _DistortionBlend: 1
     - _DistortionEnabled: 0
-    - _DistortionStrength: 1
-    - _DistortionStrengthScaled: 0.1
+    - _DistortionStrength: 13.78
+    - _DistortionStrengthScaled: 1.378
     - _DstBlend: 1
     - _EnvironmentReflections: 1
     - _FlipbookBlending: 0

@@ -196,7 +196,7 @@ public class Enemy : MonoBehaviour
     //functions
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (chaseMode && collision.CompareTag("Player"))
+        if (isAlive && chaseMode && collision.CompareTag("Player"))
         {
             chaseRoutine = StartCoroutine(Chase());
             isChasing = true;
@@ -204,7 +204,7 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (chaseMode && collision.CompareTag("Player"))
+        if (isAlive && chaseMode && collision.CompareTag("Player"))
         {
             StopCoroutine(chaseRoutine);
             isChasing = false;

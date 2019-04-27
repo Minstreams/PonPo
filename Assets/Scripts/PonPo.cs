@@ -22,6 +22,7 @@ public class PonPo : MonoBehaviour
     }
     [HideInInspector] public Rigidbody2D rig;
     private bool isAlive = true;
+    public MaterialTextureSetter eye;
 
     private void Awake()
     {
@@ -94,22 +95,26 @@ public class PonPo : MonoBehaviour
                 {
                     direction = Vector2.up;
                     force = Setting.gunForceVertical;
+                    eye.SetMaterial(1);
                 }
                 else if (IShootDown)
                 {
                     ClearYAxisVolecity();
                     direction = Vector2.down;
                     force = Setting.gunForceVertical;
+                    eye.SetMaterial(3);
                 }
                 else if (IShootLeft)
                 {
                     direction = Vector2.left;
                     force = Setting.gunForceHorizontal;
+                    eye.SetMaterial(2);
                 }
                 else if (IShootRight)
                 {
                     direction = Vector2.right;
                     force = Setting.gunForceHorizontal;
+                    eye.SetMaterial(0);
                 }
                 else continue;
 
@@ -244,8 +249,18 @@ public class PonPo : MonoBehaviour
     private void FixedUpdate()
     {
         float a = 0f;
-        if (ILeft) a -= 1f;
-        if (IRight) a += 1f;
+        if (ILeft)
+        {
+            a -= 1f;
+            eye.SetMaterial(2);
+        }
+        if (Input.GetKeyDown(KeyCode.W)) eye.SetMaterial(1);
+        if (Input.GetKeyDown(KeyCode.S)) eye.SetMaterial(3);
+        if (IRight)
+        {
+            a += 1f;
+            eye.SetMaterial(0);
+        }
         rig.AddForce(Vector2.right * a * Force - (IsGround ? rig.velocity * Setting.groundDrag * Setting.groundDrag : Vector2.zero), ForceMode2D.Force);
 
         Debug.DrawLine(transform.position, transform.position + Vector3.right * a * Force * 0.1f, Color.blue);
