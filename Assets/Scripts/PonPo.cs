@@ -282,6 +282,7 @@ public class PonPo : MonoBehaviour
             if (groundAttached <= 0)
             {
                 IsGround = true;
+                print("on");
             }
             groundAttached++;
             foreach (ContactPoint2D v in collision.contacts)
@@ -300,6 +301,7 @@ public class PonPo : MonoBehaviour
             if (groundAttached <= 0)
             {
                 IsGround = false;
+                print("off");
             }
 
             int ccount = rig.GetContacts(contacts);
