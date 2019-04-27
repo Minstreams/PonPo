@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6094859172168642453
 Transform:
@@ -4973,6 +4973,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: lazer
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: c8fbdff310110f74e85cf4030d718852,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: c8fbdff310110f74e85cf4030d718852,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: c8fbdff310110f74e85cf4030d718852,
         type: 3}
