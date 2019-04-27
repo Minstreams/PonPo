@@ -21,6 +21,7 @@ public class PonPo : MonoBehaviour
         }
     }
     [HideInInspector] public Rigidbody2D rig;
+    private bool isAlive = true;
 
     private void Awake()
     {
@@ -56,6 +57,7 @@ public class PonPo : MonoBehaviour
     public class IntEvent : UnityEvent<int> { }
 
     public Vec2Event onShoot;
+    public IntEvent onLosingAmmo;
     public IntEvent onAmmoChange;
     public UnityEvent onReload;
     public UnityEvent onDie;
@@ -68,14 +70,14 @@ public class PonPo : MonoBehaviour
 
     //Gun Control=============================================================
     private int _ammo = 2;
-    public int Ammo { get => _ammo; set { onAmmoChange?.Invoke(value); _ammo = value; } }
+    public int Ammo { get => _ammo; set { if (value < _ammo) onLosingAmmo?.Invoke(_ammo - value); onAmmoChange?.Invoke(value); _ammo = value; } }
     private static Vector2 direction;
     public static bool ShootHit(Vector3 position)
     {
         Vector2 vec = position - ponPo.transform.position;
         return vec.magnitude < GameSystem.TheMatrix.PonPoSetting.cannonDistance && Mathf.Abs(Vector2.Angle(vec, direction)) < GameSystem.TheMatrix.PonPoSetting.cannonAngle;
     }
-
+    private float reloadTimer = 0;
 
     IEnumerator Shoot()
     {
@@ -87,6 +89,7 @@ public class PonPo : MonoBehaviour
             while (Ammo > 0)
             {
                 yield return 0;
+                if (!isAlive) continue;
                 if (IShootUp)
                 {
                     direction = Vector2.up;
@@ -117,18 +120,15 @@ public class PonPo : MonoBehaviour
 
                 //ammo time
                 IShootBegin = true;
+            }
 
-                //Reload
-                if (Ammo <= 0)
-                {
-                    onReload?.Invoke();
-                    float ttimer = Setting.reloadTime;
-                    while (Ammo <= 0 && ttimer > 0)
-                    {
-                        yield return 0;
-                        ttimer -= Time.deltaTime;
-                    }
-                }
+            //Reload
+            onReload?.Invoke();
+            reloadTimer = Setting.reloadTime;
+            while (Ammo <= 0 && reloadTimer > 0)
+            {
+                yield return 0;
+                reloadTimer -= Time.deltaTime;
             }
         }
     }
@@ -196,11 +196,14 @@ public class PonPo : MonoBehaviour
     {
         Ammo = 0;
         React(force);
+        reloadTimer = Setting.reloadTime;
         onDamage?.Invoke();
     }
 
     public void Die()
     {
+        if (!isAlive) return;
+        isAlive = false;
         print("Die!");
         onDie?.Invoke();
         StartCoroutine(InvokeRestart());
@@ -223,6 +226,7 @@ public class PonPo : MonoBehaviour
         Time.timeScale = 1.0f;
         Ammo = 2;
         Restart?.Invoke();
+        isAlive = true;
     }
 
 

@@ -112,6 +112,7 @@ public class Enemy : MonoBehaviour
 
         StartCoroutine(_TurnIntoGround(surface));
     }
+    WaitForFixedUpdate wu = new WaitForFixedUpdate();
     private IEnumerator _TurnIntoGround(float surface)
     {
         rig.drag = Setting.enemyFloatDrag;
@@ -120,14 +121,14 @@ public class Enemy : MonoBehaviour
         print("flying first");
         while (transform.position.y >= surface)
         {
-            yield return 0;
+            yield return wu;
         }
 
         //sinking second
         print("sinking second");
         while (transform.position.y < surface)
         {
-            yield return 0;
+            yield return wu;
             rig.AddForce(Vector2.up * Setting.enemyFloatPower, ForceMode2D.Force);
         }
 
@@ -135,14 +136,14 @@ public class Enemy : MonoBehaviour
         print("flying again");
         while (transform.position.y >= surface)
         {
-            yield return 0;
+            yield return wu;
         }
 
         //sinking again
         print("sinking again");
         while (transform.position.y < surface)
         {
-            yield return 0;
+            yield return wu;
             rig.AddForce(Vector2.up * Setting.enemyFloatPower, ForceMode2D.Force);
         }
 
@@ -150,14 +151,14 @@ public class Enemy : MonoBehaviour
         print("flying again");
         while (transform.position.y >= surface)
         {
-            yield return 0;
+            yield return wu;
         }
 
         //sinking again
         print("sinking again");
         while (transform.position.y < surface)
         {
-            yield return 0;
+            yield return wu;
             rig.AddForce(Vector2.up * Setting.enemyFloatPower, ForceMode2D.Force);
         }
 
