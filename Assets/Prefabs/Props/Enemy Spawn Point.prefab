@@ -48,3 +48,5 @@ MonoBehaviour:
   enemyPrifab: {fileID: 2754446877459093575, guid: dab36159f98f69f4d8746662268822fd,
     type: 3}
   infinite: 0
+  patrolMode: 0
+  patrolRange: {x: -5, y: 5}
