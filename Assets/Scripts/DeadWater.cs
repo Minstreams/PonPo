@@ -12,7 +12,7 @@ public class DeadWater : MonoBehaviour
             PonPo.ponPo.rig.drag = GameSystem.TheMatrix.PonPoSetting.enemyFloatDrag + 2;
             PonPo.ponPo.Die();
         }
-        else if (collision.CompareTag("Enemy"))
+        else if (collision.isTrigger == false && collision.CompareTag("Enemy"))
         {
             collision.GetComponent<Enemy>().TurnIntoGround(GetComponent<BoxCollider2D>().bounds.max.y);
         }

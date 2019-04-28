@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 1674999356358009518}
   - component: {fileID: 1238529270}
   - component: {fileID: 1238529271}
+  - component: {fileID: 233890701}
   m_Layer: 13
   m_Name: Smart Camera
   m_TagString: MainCamera
@@ -331,3 +332,15 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &233890701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674999356358009514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4500131bb22a9294d9eab690b1b3e805, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
