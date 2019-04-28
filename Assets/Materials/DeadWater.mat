@@ -34,11 +34,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_6CA0C2FA:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 27b05c3dff3f34c4bb088849b7b0f57d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_8AF90C6F:
         m_Texture: {fileID: 2800000, guid: abca8c1a56dfe3c42abd63aa144d1be6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_8E18067B:
+        m_Texture: {fileID: 2800000, guid: 27b05c3dff3f34c4bb088849b7b0f57d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -70,10 +74,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_18ECDA98: 0.52
+    - Vector1_18ECDA98: 0.21
     - Vector1_26421417: 28.35
-    - Vector1_9301B464: 0.45
-    - Vector1_BD9881C2: 20
+    - Vector1_2CB8A6DE: 3.91
+    - Vector1_46AA51EB: 0.024
+    - Vector1_8FCAF522: 225
+    - Vector1_9301B464: 0.1
+    - Vector1_BD9881C2: 51.3
+    - Vector1_C3FF6563: 0
+    - Vector1_E3CBBA16: 0.7
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -93,16 +102,21 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TidePower: 6
+    - _TidePower: 1.9
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - Color_B35D96A3: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_1466E780: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_30C25413: {r: 3, g: 3, b: 0, a: 0}
-    - Vector2_4618C5B4: {r: -0.94, g: -0.35, b: 0, a: 0}
-    - Vector2_47E2D062: {r: 0, g: 0.51, b: 0, a: 0}
+    - Vector2_4618C5B4: {r: -0.47, g: -0.26, b: 0, a: 0}
+    - Vector2_47E2D062: {r: 0.39, g: 0.04, b: 0, a: 0}
+    - Vector2_51912C02: {r: 3, g: 3, b: 0, a: 0}
+    - Vector2_51F54176: {r: 0, g: 1, b: 0, a: 0}
     - Vector2_5AC8018F: {r: 5, g: 5, b: 0, a: 0}
+    - Vector2_68420885: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_7F075217: {r: 5, g: 5, b: 0, a: 0}
+    - Vector2_DC75FBE2: {r: 0.03, g: 0.03, b: 0, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
