@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundForce: 20
   airForce: 2
-  groundDrag: 2
+  groundDrag: 2.2
   jumpPower: 6
   jumpClimbUpRate: 0.3
-  gunForceHorizontal: 6
+  gunForceHorizontal: 3
   gunForceVertical: 6
   reloadTime: 2
   ammoTimeDelay: 0.2
@@ -29,7 +29,7 @@ MonoBehaviour:
   damageForceHorizontal: 6
   damageForceVertical: 6
   dieDelayTime: 1
-  movingRate: 0.9
+  movingRate: 1
   reactDistance: 0.6
   enemyReactPower: 1.5
   enemyHitPowerAlive: 3
