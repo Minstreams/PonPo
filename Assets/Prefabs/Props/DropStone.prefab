@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &3339519860499648151
 Transform:
@@ -61,7 +61,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.3
+  m_Radius: 2
 --- !u!50 &3339519860499648150
 Rigidbody2D:
   serializedVersion: 4
@@ -169,12 +169,12 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: b115bde5a0de34e4ebfd1e441357dd40,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2534866581884222612, guid: b115bde5a0de34e4ebfd1e441357dd40,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b115bde5a0de34e4ebfd1e441357dd40,
         type: 3}
@@ -234,17 +234,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: b115bde5a0de34e4ebfd1e441357dd40,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b115bde5a0de34e4ebfd1e441357dd40,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b115bde5a0de34e4ebfd1e441357dd40,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -5975033157549033438, guid: b115bde5a0de34e4ebfd1e441357dd40,
         type: 3}
