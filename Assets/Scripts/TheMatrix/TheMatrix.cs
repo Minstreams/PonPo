@@ -14,44 +14,22 @@ namespace GameSystem
     public class TheMatrix : MonoBehaviour
     {
         //流程--------------------------------
+        private AudioSource bgm;
         private IEnumerator _Start()
         {
-            yield return _StartMenu();
+            yield return _InGame(1);
         }
 
-        //场景名字记为_name
-        public string _startMenu;
-        private IEnumerator _StartMenu()
+        private IEnumerator _InGame(int level)
         {
-            SceneManager.LoadScene(_startMenu);
+            SceneManager.LoadScene("Level" + (level / 10) + (level % 10));
             ResetGameMessage();
             while (true)
             {
                 yield return 0;
-                if (GetGameMessage(GameMessage.Start))
+                if (GetGameMessage(GameMessage.Next))
                 {
-                    StartCoroutine(_InGame());
-                    yield break;
-                }
-                if (GetGameMessage(GameMessage.Exit))
-                {
-                    Application.Quit();
-                    yield break;
-                }
-            }
-        }
-
-        public string _inGame;
-        private IEnumerator _InGame()
-        {
-            SceneManager.LoadScene(_inGame);
-            ResetGameMessage();
-            while (true)
-            {
-                yield return 0;
-                if (GetGameMessage(GameMessage.Return))
-                {
-                    StartCoroutine(_StartMenu());
+                    StartCoroutine(_InGame(level + 1));
                     yield break;
                 }
 
@@ -59,6 +37,14 @@ namespace GameSystem
                 {
                     Application.Quit();
                     yield break;
+                }
+                if (GetGameMessage(GameMessage.VoiceUp))
+                {
+                    bgm.volume = Mathf.Min(1.0f, bgm.volume + 0.1f);
+                }
+                if (GetGameMessage(GameMessage.VoiceDown))
+                {
+                    bgm.volume = Mathf.Max(0.0f, bgm.volume - 0.1f);
                 }
             }
         }
@@ -236,6 +222,7 @@ namespace GameSystem
         private void Awake()
         {
             instance = this;
+            bgm = GetComponent<AudioSource>();
         }
         private void Start()
         {
@@ -283,8 +270,10 @@ namespace GameSystem
     public enum GameMessage
     {
         Start,
-        Skip,
+        Next,
         Return,
+        VoiceUp,
+        VoiceDown,
         Exit
     }
 }

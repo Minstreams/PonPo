@@ -5,6 +5,7 @@ using UnityEngine;
 public class Item : Prop
 {
     private bool picked = false;
+    public UnityEngine.Events.UnityEvent onPicked;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!picked && collision.CompareTag("Player"))
@@ -12,6 +13,7 @@ public class Item : Prop
             PonPo.ponPo.Ammo++;
             print("ammo:" + PonPo.ponPo.Ammo);
             picked = true;
+            onPicked?.Invoke();
         }
     }
 
