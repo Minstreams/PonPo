@@ -5,7 +5,13 @@ using UnityEngine;
 [AddComponentMenu("little Components/MaterialTextureSetter")]
 public class MaterialTextureSetter : MonoBehaviour
 {
-    public Material material;
+    public GameObject materialObject;
+    private void Awake()
+    {
+        material = materialObject.GetComponent<Renderer>().material;
+    }
+
+    private Material material;
     public string paraName;
     public Texture[] tex;
 

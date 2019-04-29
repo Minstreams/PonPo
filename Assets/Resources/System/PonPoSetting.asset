@@ -29,7 +29,7 @@ MonoBehaviour:
   damageForceHorizontal: 6
   damageForceVertical: 6
   dieDelayTime: 1
-  movingRate: 1
+  movingRate: 0.9
   reactDistance: 0.6
   enemyReactPower: 1.5
   enemyHitPowerAlive: 3

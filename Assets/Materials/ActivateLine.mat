@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CrashMaterial
+  m_Name: ActivateLine
   m_Shader: {fileID: -6465566751694194690, guid: 54959c9d7dbd8b641b047d93e1bdb4ac,
     type: 3}
   m_ShaderKeywords: _RECEIVE_SHADOWS_OFF
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_F7693C1:
-        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -53,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_85D7CED3: 5
+    - Vector1_85D7CED3: 3.78
     - _AlphaClip: 0
     - _Blend: 0
     - _BlendOp: 0
@@ -94,7 +94,7 @@ Material:
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 4, g: 4, b: 4, a: 1}
+    - _Color: {r: 0.59579873, g: 0.990566, b: 0.5934051, a: 1}
     - _EmissionColor: {r: 1.2139338, g: 0.012711349, b: 0, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

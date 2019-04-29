@@ -21,8 +21,9 @@ public class DeadStone : Prop
         }
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         PonPo.ponPo.onShoot.AddListener(OnPonpoShoot);
     }
 

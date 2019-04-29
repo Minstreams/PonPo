@@ -117,6 +117,8 @@ public class Enemy : MonoBehaviour
     {
         rig.drag = Setting.enemyFloatDrag;
 
+        surface -= 0.3f;
+
         //flying first
         print("flying first");
         while (transform.position.y >= surface)
@@ -162,7 +164,6 @@ public class Enemy : MonoBehaviour
             rig.AddForce(Vector2.up * Setting.enemyFloatPower, ForceMode2D.Force);
         }
 
-        onTurnIntoGround?.Invoke();
 
         Vector3 vec3 = transform.position;
         vec3.y = surface;
@@ -172,6 +173,8 @@ public class Enemy : MonoBehaviour
         rig.angularVelocity = 0;
         transform.rotation = Quaternion.identity;
         rig.isKinematic = true;
+
+        onTurnIntoGround?.Invoke();
     }
 
 

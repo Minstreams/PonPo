@@ -67,6 +67,8 @@ public class PonPo : MonoBehaviour
     public UnityEvent onOffGround;
     public UnityEvent onDamage;
 
+    public UnityEvent onReborn;
+
 
 
     //Gun Control=============================================================
@@ -223,8 +225,8 @@ public class PonPo : MonoBehaviour
         {
             yield return 0;
             timer -= Time.deltaTime / Setting.dieDelayTime / Time.timeScale;
-            float t = Mathf.Lerp(1f, Setting.ammoTimeFactor, timer);
-            Time.timeScale = t * t;
+            //float t = Mathf.Lerp(1f, Setting.ammoTimeFactor, timer);
+            //Time.timeScale = t * t;
 
         }
         yield return 0;
@@ -232,6 +234,7 @@ public class PonPo : MonoBehaviour
         Ammo = 2;
         Restart?.Invoke();
         isAlive = true;
+        onReborn?.Invoke();
     }
 
 

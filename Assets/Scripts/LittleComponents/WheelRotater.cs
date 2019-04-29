@@ -20,6 +20,6 @@ public class WheelRotater : MonoBehaviour
     private void Update()
     {
         Vector2 speed = relatedRigidbody.velocity;
-        transform.Rotate(rotateAxis, Time.deltaTime * Mathf.Sign(Vector2.Dot(_referenceVec, speed)) * speed.magnitude * 180f / radius / Mathf.PI);
+        transform.Rotate(rotateAxis, Time.deltaTime * Mathf.Sign(Vector2.Dot(_referenceVec, speed)) * speed.magnitude * 180f / radius / Mathf.PI, Space.Self);
     }
 }

@@ -15,8 +15,14 @@ public class Luker : Prop
     private float timer = 0;
     private GameObject dz;
 
-    private void Start()
+    public UnityEngine.Events.UnityEvent onBroken;
+    public UnityEngine.Events.UnityEvent onActivate;
+    public UnityEngine.Events.UnityEvent onDeActivate;
+
+
+    protected override void Start()
     {
+        base.Start();
         dz = GetComponentInChildren<DeadZone>().gameObject;
         if (destroyable) PonPo.ponPo.onShoot.AddListener(OnPonpoShoot);
         timer = startTimer;
@@ -28,6 +34,8 @@ public class Luker : Prop
         timer -= Time.deltaTime;
         if (timer < 0)
         {
+            if (dz.activeSelf) onDeActivate?.Invoke();
+            else onActivate?.Invoke();
             dz.SetActive(!dz.activeSelf);
             timer = interval;
         }
@@ -45,6 +53,7 @@ public class Luker : Prop
         broken = true;
         PonPo.ponPo.onShoot.RemoveListener(OnPonpoShoot);
         ker.SetActive(false);
+        onBroken?.Invoke();
     }
 
     protected override void Restart()
@@ -54,6 +63,7 @@ public class Luker : Prop
         broken = false;
         timer = startTimer;
         ker.SetActive(true);
+        onActivate?.Invoke();
     }
 
     private void OnDrawGizmos()

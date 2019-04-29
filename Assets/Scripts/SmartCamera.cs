@@ -33,7 +33,13 @@ public class SmartCamera : MonoBehaviour
 
     private void React(Vector2 direction)
     {
-        transform.Translate(direction * GameSystem.TheMatrix.PonPoSetting.reactDistance);
+        transform.Translate(((Vector3)direction + Vector3.back) * GameSystem.TheMatrix.PonPoSetting.reactDistance);
+    }
+
+    private void ReactBack()
+    {
+        transform.Translate(Vector3.back * GameSystem.TheMatrix.PonPoSetting.reactDistance);
+
     }
 
     private void Awake()
@@ -45,6 +51,8 @@ public class SmartCamera : MonoBehaviour
     private void Start()
     {
         PonPo.ponPo.onShoot.AddListener(React);
+        PonPo.ponPo.onDie.AddListener(ReactBack);
+        PonPo.ponPo.onDamage.AddListener(ReactBack);
     }
 
     private void Update()
