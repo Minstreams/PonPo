@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameSystem;
 
 public class DeadStone : Prop
 {
     bool onAir = true;
+    public FloatEvent onLanding;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -19,6 +21,7 @@ public class DeadStone : Prop
                 onAir = false;
             }
         }
+        onLanding?.Invoke(collision.relativeVelocity.magnitude);
     }
 
     protected override void Start()

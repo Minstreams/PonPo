@@ -14,6 +14,7 @@ public class ParticleCollisionUnityEvent : MonoBehaviour
     }
 
     public FloatEvent e;
+    public FloatEvent eRelativePosition;
     public float minThreadhold = 1;
     public bool mode2D = false;
 
@@ -39,6 +40,9 @@ public class ParticleCollisionUnityEvent : MonoBehaviour
             }
 
         if (mag >= minThreadhold)
-            e.Invoke(mag);
+        {
+            e?.Invoke(mag);
+            eRelativePosition?.Invoke(collisionEvents[0].intersection.x - transform.position.x);
+        }
     }
 }

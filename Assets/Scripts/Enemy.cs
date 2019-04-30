@@ -120,14 +120,12 @@ public class Enemy : MonoBehaviour
         surface -= 0.3f;
 
         //flying first
-        print("flying first");
         while (transform.position.y >= surface)
         {
             yield return wu;
         }
 
         //sinking second
-        print("sinking second");
         while (transform.position.y < surface)
         {
             yield return wu;
@@ -135,14 +133,12 @@ public class Enemy : MonoBehaviour
         }
 
         //flying again
-        print("flying again");
         while (transform.position.y >= surface)
         {
             yield return wu;
         }
 
         //sinking again
-        print("sinking again");
         while (transform.position.y < surface)
         {
             yield return wu;
@@ -150,14 +146,12 @@ public class Enemy : MonoBehaviour
         }
 
         //flying again
-        print("flying again");
         while (transform.position.y >= surface)
         {
             yield return wu;
         }
 
         //sinking again
-        print("sinking again");
         while (transform.position.y < surface)
         {
             yield return wu;

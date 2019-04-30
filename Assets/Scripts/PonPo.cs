@@ -242,9 +242,11 @@ public class PonPo : MonoBehaviour
             timer -= Time.deltaTime / Setting.dieDelayTime / Time.timeScale;
             //float t = Mathf.Lerp(1f, Setting.ammoTimeFactor, timer);
             //Time.timeScale = t * t;
-
+            onAmmoTime?.Invoke(Time.timeScale);
         }
         yield return 0;
+        onAmmoTime?.Invoke(1.0f);
+        onStopAmmoTime?.Invoke();
         Time.timeScale = 1.0f;
         Ammo = 2;
         Restart?.Invoke();
