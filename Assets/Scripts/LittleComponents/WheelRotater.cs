@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameSystem;
 
 [AddComponentMenu("little Components/WheelRotater")]
 public class WheelRotater : MonoBehaviour
@@ -12,6 +13,11 @@ public class WheelRotater : MonoBehaviour
     public Vector3 rotateAxis = Vector3.back;
     public float radius = 0.5f;
 
+
+    public FloatEvent onTick;
+    public float tickLength = 1;
+    private float ticker = 0;
+
     public void SetNegNormal(Vector2 n)
     {
         referenceNormal = -n;
@@ -20,6 +26,14 @@ public class WheelRotater : MonoBehaviour
     private void Update()
     {
         Vector2 speed = relatedRigidbody.velocity;
-        transform.Rotate(rotateAxis, Time.deltaTime * Mathf.Sign(Vector2.Dot(_referenceVec, speed)) * speed.magnitude * 180f / radius / Mathf.PI, Space.Self);
+        float move = Time.deltaTime * Mathf.Sign(Vector2.Dot(_referenceVec, speed)) * speed.magnitude;
+        transform.Rotate(rotateAxis, move * 180f / radius / Mathf.PI, Space.Self);
+
+        ticker += move;
+        if (ticker > tickLength || ticker < -tickLength)
+        {
+            ticker = 0;
+            onTick?.Invoke(Mathf.Abs(move));
+        }
     }
 }

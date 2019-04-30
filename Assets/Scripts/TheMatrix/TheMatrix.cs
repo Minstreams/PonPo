@@ -276,6 +276,14 @@ namespace GameSystem
         VoiceDown,
         Exit
     }
+
+
+    [System.Serializable]
+    public class FloatEvent : UnityEngine.Events.UnityEvent<float> { }
+    [System.Serializable]
+    public class Vec2Event : UnityEvent<Vector2> { }
+    [System.Serializable]
+    public class IntEvent : UnityEvent<int> { }
 }
 
 #if UNITY_EDITOR

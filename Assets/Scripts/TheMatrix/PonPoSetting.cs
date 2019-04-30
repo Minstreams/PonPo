@@ -16,11 +16,13 @@ namespace GameSystem
             public float groundDrag = 2; 
             public float jumpPower = 6;
             public float jumpClimbUpRate = 0.2f;
+            public float landVolecityThreadhold = 1; //relative volecity threadhold to determine wheather ponpon is landing a new ground.
 
             [Header("枪参数")]
             public float gunForceHorizontal = 6;
             public float gunForceVertical = 6;
             public float reloadTime = 2.0f;
+            public float reloadEndAudioTime = 1.125f;
             public float ammoTimeDelay = 0.2f;
             public float ammoTimeFactor = 0.3f;
             public float ammoTimeSeconds = 3f;

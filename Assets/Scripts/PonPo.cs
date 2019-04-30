@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using GameSystem;
 
 /// <summary>
 /// Player
@@ -52,23 +53,23 @@ public class PonPo : MonoBehaviour
     //Event list
     public static event UnityAction Restart;
 
-    [System.Serializable]
-    public class Vec2Event : UnityEvent<Vector2> { }
-    [System.Serializable]
-    public class IntEvent : UnityEvent<int> { }
-
     public Vec2Event onShoot;
     public IntEvent onLosingAmmo;
     public IntEvent onAmmoChange;
-    public UnityEvent onReload;
+    public UnityEvent onReloadStart;
+    public UnityEvent onReloadPreEnd;
+    public UnityEvent onReloadEnd;
+    public UnityEvent onReloadBreak;
     public UnityEvent onDie;
     public UnityEvent onJump;
     public Vec2Event onLandingGround;
+    public FloatEvent onLandingNewGround;
     public UnityEvent onOffGround;
     public UnityEvent onDamage;
-
     public UnityEvent onReborn;
-
+    public UnityEvent onStartAmmoTime;
+    public UnityEvent onStopAmmoTime;
+    public FloatEvent onAmmoTime;
 
 
     //Gun Control=============================================================
@@ -82,11 +83,13 @@ public class PonPo : MonoBehaviour
     }
     private float reloadTimer = 0;
 
+    private bool reloadPreEnd = false;//should the end loading audio play?
     IEnumerator Shoot()
     {
         while (true)
         {
             Ammo = 2;
+            reloadPreEnd = false;
             float force = 0;
 
             while (Ammo > 0)
@@ -130,13 +133,19 @@ public class PonPo : MonoBehaviour
             }
 
             //Reload
-            onReload?.Invoke();
+            onReloadStart?.Invoke();
             reloadTimer = Setting.reloadTime;
             while (Ammo <= 0 && reloadTimer > 0)
             {
                 yield return 0;
                 reloadTimer -= Time.deltaTime;
+                if (!reloadPreEnd && reloadTimer <= Setting.reloadEndAudioTime)
+                {
+                    onReloadPreEnd?.Invoke();
+                    reloadPreEnd = true;
+                }
             }
+            onReloadEnd?.Invoke();
         }
     }
     IEnumerator AmmoTime()
@@ -157,6 +166,8 @@ public class PonPo : MonoBehaviour
 
             if (IShootEnd) continue;
 
+            onStartAmmoTime?.Invoke();
+
             Time.timeScale = Setting.ammoTimeFactor * Setting.ammoTimeFactor;
             float timer = 1f;
             while (timer > 0)
@@ -165,7 +176,7 @@ public class PonPo : MonoBehaviour
                 timer -= Time.deltaTime / Setting.ammoTimeSeconds / Time.timeScale;
                 float t = Mathf.Lerp(1f, Setting.ammoTimeFactor, timer);
                 Time.timeScale = t * t;
-
+                onAmmoTime?.Invoke(Time.timeScale);
 
                 if (IShootBegin)
                 {
@@ -176,6 +187,8 @@ public class PonPo : MonoBehaviour
             }
             yield return 0;
             Time.timeScale = 1.0f;
+            onAmmoTime?.Invoke(1.0f);
+            onStopAmmoTime?.Invoke();
         }
     }
     private void Start()
@@ -204,7 +217,9 @@ public class PonPo : MonoBehaviour
         Ammo = 0;
         React(force);
         reloadTimer = Setting.reloadTime;
+        reloadPreEnd = false;
         onDamage?.Invoke();
+        onReloadBreak?.Invoke();
     }
 
     public void Die()
@@ -282,17 +297,19 @@ public class PonPo : MonoBehaviour
     {
         if (collision.collider.CompareTag("Ground"))
         {
-            if (groundAttached <= 0)
-            {
-                IsGround = true;
-                print("on");
-            }
-            groundAttached++;
             foreach (ContactPoint2D v in collision.contacts)
             {
                 if (v.normal.y > jumpVec.y) jumpVec = v.normal + Vector2.up * Setting.jumpClimbUpRate;
             }
             onLandingGround?.Invoke(jumpVec);
+
+            if (groundAttached <= 0)
+            {
+                IsGround = true;
+                float relativeV = Vector2.Dot(collision.relativeVelocity, jumpVec);
+                if (relativeV > Setting.landVolecityThreadhold) onLandingNewGround?.Invoke(relativeV);
+            }
+            groundAttached++;
         }
     }
     ContactPoint2D[] contacts = new ContactPoint2D[32];
@@ -304,7 +321,6 @@ public class PonPo : MonoBehaviour
             if (groundAttached <= 0)
             {
                 IsGround = false;
-                print("off");
             }
 
             int ccount = rig.GetContacts(contacts);

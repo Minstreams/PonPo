@@ -17,9 +17,11 @@ MonoBehaviour:
   groundDrag: 2.2
   jumpPower: 6
   jumpClimbUpRate: 0.3
+  landVolecityThreadhold: 0.8
   gunForceHorizontal: 3
   gunForceVertical: 6
-  reloadTime: 2
+  reloadTime: 2.125
+  reloadEndAudioTime: 1.125
   ammoTimeDelay: 0.2
   ammoTimeFactor: 0.3
   ammoTimeSeconds: 3
