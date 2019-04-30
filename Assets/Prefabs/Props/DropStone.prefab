@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3339519860499648150}
   m_Layer: 12
   m_Name: Stone
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,6 +46,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336e3b6b528d2bf4298b7f87c87e3e64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onRestart:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onStart:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!58 &3339519860499648149
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -154,6 +164,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070fafcaedeb877499132fcb13f4fa3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onRestart:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onStart:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1001 &6972156488698096911
 PrefabInstance:
   m_ObjectHideFlags: 0
