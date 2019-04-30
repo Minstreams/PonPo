@@ -30877,7 +30877,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -50855,6 +50855,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6421317874691839607}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 82fb24371b0868e46b900c0c12bc2afa,
+        type: 3}
+      propertyPath: m_Name
+      value: Gun
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 82fb24371b0868e46b900c0c12bc2afa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -50910,11 +50915,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 82fb24371b0868e46b900c0c12bc2afa,
-        type: 3}
-      propertyPath: m_Name
-      value: Gun
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82fb24371b0868e46b900c0c12bc2afa, type: 3}
 --- !u!1 &3857570539511519709 stripped
@@ -50942,6 +50942,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7448679168792896048}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 445ce928b150d594aa7d555f7a3b49bb,
+        type: 3}
+      propertyPath: m_Name
+      value: ponpBody
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 445ce928b150d594aa7d555f7a3b49bb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -50996,11 +51001,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 445ce928b150d594aa7d555f7a3b49bb,
-        type: 3}
-      propertyPath: m_Name
-      value: ponpBody
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 445ce928b150d594aa7d555f7a3b49bb, type: 3}
