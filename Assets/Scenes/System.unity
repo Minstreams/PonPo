@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1e91a85b47c1544a51623bbcb3612d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: 0
+  test: 1
   dataToSave: []
 --- !u!4 &385830642
 Transform:
