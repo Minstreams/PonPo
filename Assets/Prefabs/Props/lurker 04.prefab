@@ -15100,17 +15100,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3830180057100787462}
     m_Modifications:
-    - target: {fileID: 2534866581884222612, guid: 9b23e394764bc474c8319f22e1b5360e,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 9b23e394764bc474c8319f22e1b5360e,
         type: 3}
       propertyPath: m_Name
       value: luker02
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 9b23e394764bc474c8319f22e1b5360e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 9b23e394764bc474c8319f22e1b5360e,
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
@@ -15185,17 +15185,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8430102647729482885}
     m_Modifications:
-    - target: {fileID: 2534866581884222612, guid: 9b23e394764bc474c8319f22e1b5360e,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 9b23e394764bc474c8319f22e1b5360e,
         type: 3}
       propertyPath: m_Name
       value: luker02
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 9b23e394764bc474c8319f22e1b5360e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 9b23e394764bc474c8319f22e1b5360e,
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
@@ -15291,6 +15291,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8430102647729482885}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 0cb63c5aabc2477469d0acccc6a1853c,
+        type: 3}
+      propertyPath: m_Name
+      value: lukerGround02
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 0cb63c5aabc2477469d0acccc6a1853c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15346,10 +15351,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 0cb63c5aabc2477469d0acccc6a1853c,
+    - target: {fileID: -5975033157549033438, guid: 0cb63c5aabc2477469d0acccc6a1853c,
         type: 3}
-      propertyPath: m_Name
-      value: lukerGround02
+      propertyPath: m_LocalPosition.y
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cb63c5aabc2477469d0acccc6a1853c, type: 3}
